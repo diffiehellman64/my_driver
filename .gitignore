@@ -1,0 +1,6 @@
+uploaded_files/
+_env/prod.env
+/static/collect/*
+/static/upload/*
+
+!.keep
