@@ -30,7 +30,7 @@ services:
       - ./api/:/app/
       # - ./static/:/app/static/
     ports:
-      - 8090:8000
+      - 8000:8000
     env_file:
       - _env/dev.env
     #   - _env_dev/urls.env
@@ -41,16 +41,18 @@ services:
     depends_on:
       - db
 
-  # gui:
-  #   build: ./gui
-  #   container_name: nuxt3_gui
-  #   user: "1000:1000"
-  #   command: "npm run dev"
-  #   volumes:
-  #     - ./gui/:/mnt/
-  #   env_file:
-  #     - _env_dev/urls.env
-  #     - _env_dev/oauth.env
+  gui:
+    build: ./gui
+    container_name: nuxt3_gui
+    user: "1000:1000"
+    command: "npm run dev"
+    volumes:
+      - ./gui/:/app/
+    #   env_file:
+    #     - _env_dev/urls.env
+    #     - _env_dev/oauth.env
+    ports:
+      - 3000:3000
 
   redis:
     image: redis:7.0
