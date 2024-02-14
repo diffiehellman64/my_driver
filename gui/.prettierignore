@@ -1,0 +1,4 @@
+node_modules
+.nuxt
+.vite
+modules/nuxt-auth
