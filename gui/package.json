@@ -15,6 +15,12 @@
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
+    "@pinia/nuxt": "^0.5.1",
+    "@typescript-eslint/eslint-plugin": "^7.0.1",
+    "@typescript-eslint/parser": "^7.0.1",
+    "eslint-config-prettier": "^9.1.0",
+    "pinia": "^2.1.7",
+    "prettier": "^3.2.5",
     "vuetify-nuxt-module": "^0.10.3"
   }
 }
