@@ -1,12 +1,12 @@
 <template>
   <div class="d-flex align-center justify-center height-all">
-    <!-- <div class="d-flex flex-column justify-center">
-      <form-login v-if="form == 'login'" @replace-me="replaceComponent" />
-      <form-registration
+    <div class="d-flex flex-column justify-center">
+      <form-login v-if="form == 'login'" />
+      <!-- <form-registration
         v-if="form == 'registration'"
         @replace-me="replaceComponent"
-      />
-    </div> -->
+      /> -->
+    </div>
   </div>
 </template>
 
@@ -18,7 +18,7 @@
 //     navigateAuthenticatedTo: '/',
 //   },
 // })
-// const form: Ref = ref('login')
+const form: Ref = ref('login')
 
 // function replaceComponent(comp: string) {
 //   form.value = comp
