@@ -19,7 +19,7 @@
     />
     <v-btn color="primary" class="mb-3" @click="login">Sing In</v-btn>
     <!-- <v-btn @click="emit('replaceMe', 'registration')">Sing Up</v-btn> -->
-    {{ user }}
+    <!-- {{ user }} -->
   </v-form>
 </template>
 
@@ -49,8 +49,8 @@ const user = ref({
   username: 'kminchelle',
   password: '0lelplR',
 })
-const router = useRouter()
 
+const router = useRouter()
 const login = async () => {
   await authenticateUser(user.value) // call authenticateUser and pass the user object
   // redirect to homepage if user is authenticated

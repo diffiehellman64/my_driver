@@ -9,17 +9,22 @@
       <div>
         {{ data }}
       </div>
-    </client-only>
-    <v-btn @click="logout">sign out</v-btn> -->
+    </client-only>-->
+    <v-btn @click="logout">sign out</v-btn>
   </div>
 </template>
 
 <script setup lang="ts">
-const config = useRuntimeConfig();
+import { useAuthStore } from '~/store/auth' // import the auth store we just created
 
-// function logout() {
-//   signOut({ callbackUrl: '/login' })
-// }
+const config = useRuntimeConfig()
+const router = useRouter()
 
 // const { status, data, signOut } = useAuth()
+const { logUserOut } = useAuthStore()
+
+function logout() {
+  logUserOut()
+  router.push('/login')
+}
 </script>
