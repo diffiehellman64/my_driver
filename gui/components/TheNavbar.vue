@@ -6,7 +6,7 @@
     <v-app-bar-title>app</v-app-bar-title>
     <v-btn
       v-for="item in navItems"
-      v-show="!item.hide"
+      v-show="item.show"
       :key="item.path"
       :text="item.title"
       :to="item.path"
@@ -15,16 +15,29 @@
       min-height="100%"
     />
     <btn-theme-change class="mr-3" />
+    {{ authenticated }}
   </v-app-bar>
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from 'pinia' // import storeToRefs helper hook from pinia
+import { useAuthStore } from '~/store/auth' // import the auth store we just created
+
+const router = useRouter()
+const { logUserOut } = useAuthStore() // use authenticateUser action from  auth store
+const { authenticated } = storeToRefs(useAuthStore()) // make authenticated state reactive with storeToRefs
+
 const navItems = computed(() => [
-  { title: "Home", path: "/", icon: "mdi-home", hide: false },
-  { title: "Dev", path: "/dev", icon: "mdi-tools" },
-  // { title: "Login", path: "/login", icon: "mdi-login", hide: data.value?.id },
-  { title: "Login", path: "/login", icon: "mdi-login" },
-]);
+  { title: 'Home', path: '/', icon: 'mdi-home', show: true },
+  { title: 'Dev', path: '/dev', icon: 'mdi-tools', show: true },
+  { title: 'Login', path: '/login', icon: 'mdi-login', show: !authenticated },
+  { title: 'Login', path: '/login', icon: 'mdi-login', show: true },
+])
+
+const logout = () => {
+  logUserOut()
+  router.push('/login')
+}
 </script>
 
 <style scoped>
