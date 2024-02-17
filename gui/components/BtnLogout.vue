@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn icon @click="logout()">
+    <v-btn icon @click="logOut()">
       <v-icon> mdi-logout </v-icon>
     </v-btn>
   </div>
@@ -8,12 +8,12 @@
 
 <script setup lang="ts">
 import { useAuthStore } from '~/store/auth'
-const { logUserOut } = useAuthStore()
+const { logout } = useAuthStore()
 
 const router = useRouter()
 
-const logout = () => {
-  logUserOut()
+const logOut = () => {
+  logout()
   router.push('/login')
 }
 </script>

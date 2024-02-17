@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
-
-interface UserPayloadInterface {
-  username: string
-  password: string
-}
+// import { useMessageStore } from '~/store/message'
+// const { addMessage } = useMessageStore() // use authenticateUser action from  auth store
+import type { AsyncData, UseFetchOptions } from 'nuxt/app'
+import { useRequestHeaders } from 'nuxt/app'
+import { FetchError } from 'ofetch'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -12,29 +12,19 @@ export const useAuthStore = defineStore('auth', {
   }),
 
   actions: {
-    async authenticateUser({ username, password }: UserPayloadInterface) {
-      // useFetch from nuxt 3
-      const { data, pending }: any = await useFetch(
-        'https://dummyjson.com/auth/login',
-        {
-          method: 'post',
-          headers: { 'Content-Type': 'application/json' },
-          body: {
-            username,
-            password,
-          },
-        }
-      )
-      this.loading = pending
+    async auth({ data, error, execute, pending }: any) {
+      this.loading = true
+      await execute()
+      this.loading = false
 
       if (data.value) {
-        const token = useCookie('token') // useCookie new hook in nuxt 3
-        token.value = data?.value?.token // set token to cookie
-        this.authenticated = true // set authenticated  state value to true
+        const token = useCookie('token')
+        token.value = data.value.token
+        this.authenticated = true
       }
     },
 
-    logUserOut() {
+    logout() {
       const token = useCookie('token') // useCookie new hook in nuxt 3
       this.authenticated = false // set authenticated  state value to false
       token.value = null // clear the token cookie
