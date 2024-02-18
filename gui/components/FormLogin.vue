@@ -37,10 +37,10 @@ const user = ref({
 })
 
 const router = useRouter()
+const fetch = useAuth(user.value)
 
 const login = async () => {
-  await auth(user.value)
-
+  await auth(fetch)
   if (authenticated) {
     router.push('/') // redirect to homepage if user is authenticated
   }
