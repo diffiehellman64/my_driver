@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useNotifyStore } from './notify'
 
 type StateAuth = {
   authenticated: boolean
@@ -12,10 +13,15 @@ export const useAuthStore = defineStore('auth', {
   }),
 
   actions: {
-    async auth({ data, execute }: any) {
+    async auth({ data, execute, error }: any) {
+      const { addMessage } = useNotifyStore()
       this.loading = true
       await execute()
       this.loading = false
+
+      if (error.value) {
+        addMessage({ text: 'Auth error', show: true })
+      }
 
       if (data.value) {
         const token = useCookie('token')

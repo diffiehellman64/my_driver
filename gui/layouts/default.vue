@@ -2,7 +2,7 @@
   <v-app>
     <TheNavbar />
     <v-container class="mt-15">
-      <!-- <TheMessageBox /> -->
+      <TheNotifies />
       <slot />
     </v-container>
   </v-app>
