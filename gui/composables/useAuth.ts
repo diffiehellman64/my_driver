@@ -5,7 +5,7 @@ type UserCreds = {
 
 let auth: any = {}
 
-const init = (body: UserCreds) => {
+export function useAuthInit(body: UserCreds) {
   auth = useFetch('/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -18,7 +18,7 @@ const init = (body: UserCreds) => {
 
 export async function useAuth(body: UserCreds) {
   if (!auth.execute) {
-    init(body)
+    useAuthInit(body)
   }
   return auth
 }

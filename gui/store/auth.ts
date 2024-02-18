@@ -13,17 +13,26 @@ type UserCreds = {
 type StateAuth = {
   authenticated: boolean
   loading: boolean
+  profile: any
+  fetch: any
 }
 
 export const useAuthStore = defineStore('auth', {
   state: (): StateAuth => ({
     authenticated: false,
     loading: false,
+    profile: {},
+    fetch: {},
   }),
 
   actions: {
+    init(body: UserCreds) {
+      useAuthInit(body)
+    },
+
     async auth(body: UserCreds) {
       const { data, pending, execute } = await useAuth(body)
+
       this.loading = true
       await execute()
       this.loading = false
@@ -31,6 +40,7 @@ export const useAuthStore = defineStore('auth', {
       if (data.value) {
         const token = useCookie('token')
         token.value = data.value.token
+        this.profile = data.value
         this.authenticated = true
       }
     },

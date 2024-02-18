@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '~/store/auth' // import the auth store we just created
 
-const { auth } = useAuthStore() // use authenticateUser action from  auth store
+const { auth, init } = useAuthStore() // use authenticateUser action from  auth store
 const { authenticated, loading } = storeToRefs(useAuthStore()) // make authenticated state reactive with storeToRefs
 
 const user = ref({
@@ -37,6 +37,8 @@ const user = ref({
 })
 
 const router = useRouter()
+
+init(user.value)
 
 const login = async () => {
   await auth(user.value)
