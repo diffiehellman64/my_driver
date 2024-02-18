@@ -1,18 +1,29 @@
 import { defineStore } from 'pinia'
 // import { useMessageStore } from '~/store/message'
 // const { addMessage } = useMessageStore() // use authenticateUser action from  auth store
-import type { AsyncData, UseFetchOptions } from 'nuxt/app'
-import { useRequestHeaders } from 'nuxt/app'
-import { FetchError } from 'ofetch'
+// import type { AsyncData, UseFetchOptions } from 'nuxt/app'
+// import { useRequestHeaders } from 'nuxt/app'
+// import { FetchError } from 'ofetch'
+
+type UserCreds = {
+  username: string
+  password: string
+}
+
+type StateAuth = {
+  authenticated: boolean
+  loading: boolean
+}
 
 export const useAuthStore = defineStore('auth', {
-  state: () => ({
+  state: (): StateAuth => ({
     authenticated: false,
     loading: false,
   }),
 
   actions: {
-    async auth({ data, error, execute, pending }: any) {
+    async auth(body: UserCreds) {
+      const { data, pending, execute } = await useAuth(body)
       this.loading = true
       await execute()
       this.loading = false
