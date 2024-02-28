@@ -24,3 +24,6 @@ tornado==6.1
 tzlocal==5.2
 urllib3==2.2.1
 wheel==0.42.0
+python-telegram-bot
+djangorestframework
+telegram_django_bot

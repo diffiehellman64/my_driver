@@ -1,14 +1,5 @@
 import { defineStore } from 'pinia'
-// import { useMessageStore } from '~/store/message'
-// const { addMessage } = useMessageStore() // use authenticateUser action from  auth store
-// import type { AsyncData, UseFetchOptions } from 'nuxt/app'
-// import { useRequestHeaders } from 'nuxt/app'
-// import { FetchError } from 'ofetch'
-
-type UserCreds = {
-  username: string
-  password: string
-}
+import { useNotifyStore } from './notify'
 
 type StateAuth = {
   authenticated: boolean
@@ -36,6 +27,10 @@ export const useAuthStore = defineStore('auth', {
       this.loading = true
       await execute()
       this.loading = false
+
+      if (error.value) {
+        addMessage({ text: 'Auth error', show: true })
+      }
 
       if (data.value) {
         const token = useCookie('token')
