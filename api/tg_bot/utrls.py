@@ -1,27 +1,18 @@
-from django.urls import re_path, include
-from django.conf import settings
+from django.urls import re_path
 
-
-# urlpatterns = [
-#     re_path('', include(('base.utrls', 'base'), namespace='base')),
-# ]
-
-# from django.urls import re_path, include
-# from django.conf import settings
-
-from .views import start #, BotMenuElemViewSet, UserViewSet, some_debug_func
+from .views import start #, change_location, select_folder, FileViewSet, FolderViewSet, ShareLinkViewSet
+# from telegram_django_bot.user_viewset import UserViewSet
 
 
 urlpatterns = [
     re_path('start', start, name='start'),
     # re_path('main_menu', start, name='start'),
 
-    # re_path('sb/', BotMenuElemViewSet, name='BotMenuElemViewSet'),
-    # re_path('us/', UserViewSet, name='UserViewSet'),
+    # re_path('change_location', change_location, name='change_location'),
+    # re_path('select_folder', select_folder, name='select_folder'),
+
+    # re_path('fl/', FileViewSet, name='FileViewSet'),
+    # re_path('fol/', FolderViewSet, name='FolderViewSet'),
+    # re_path('sl/', ShareLinkViewSet, name='ShareLinkViewSet'),
+    # re_path('us/', UserViewSet, name='UserViewSet')
 ]
-
-
-# if settings.DEBUG:
-#     urlpatterns += [
-#         re_path('some_debug_func', some_debug_func, name='some_debug_func'),
-#     ]

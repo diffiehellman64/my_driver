@@ -1,5 +1,6 @@
 uploaded_files/
 _env/prod.env
+_env/secret.env
 /static/collect/*
 /static/upload/*
 

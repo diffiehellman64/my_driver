@@ -29,6 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'driver.User'
 
 # Application definition
 
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'django_json_widget', # needed for django admin site
 
     'tg_bot',
+    'driver',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +61,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'core.urls'
 TELEGRAM_ROOT_UTRLCONF = 'core.utrls'
 
-TELEGRAM_ROOT_UTRLCONF = 'bot.utrls'
+TELEGRAM_ROOT_UTRLCONF = 'tg_bot.utrls'
 
 TEMPLATES = [
     {
@@ -135,6 +137,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-TELEGRAM_TOKEN = 'TOKEN'
+TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')
 
 TELEGRAM_LOG = '/app/bot.log'
