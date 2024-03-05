@@ -3,7 +3,7 @@ version: "3.3"
 services:
   # nginx:
   #   image: nginx:1.23.4-alpine3.17
-  #   container_name: nuxt3_nginx
+  #   container_name: ${APP_NAME}_nginx
   #   # volumes:
   #   #   - ./static:/mnt/
   #   #   - ./nginx:/etc/nginx
@@ -13,7 +13,7 @@ services:
 
   db:
     image: postgres:13.4-alpine
-    container_name: nuxt3_db
+    container_name: ${APP_NAME}_db
     command: postgres -c listen_addresses='*'
     volumes:
       - postgres_data:/var/lib/postgresql/data/
@@ -22,7 +22,7 @@ services:
 
   api:
     build: ./api
-    container_name: nuxt3_api
+    container_name: ${APP_NAME}_api
     # user: "1000:1000"
     # command: sh -c 'python manage.py makemigrations && python manage.py migrate && python manage.py initdata && python manage.py collectstatic --clear --noinput && python manage.py runserver 0.0.0.0:8000'
     command: sh -c 'python manage.py runserver 0.0.0.0:8000'
@@ -33,16 +33,25 @@ services:
       - 8000:8000
     env_file:
       - _env/dev.env
-      - _env/secret.env
     #   - _env_dev/urls.env
     #   - _env_dev/oauth.env
     #   - _env_dev/api.env
     #   - _env_dev/db.env
     restart: always
 
+  bot:
+    image: ${APP_NAME}_api
+    container_name: ${APP_NAME}_bot
+    command: sh -c 'python run_bot.py'
+    volumes:
+      - ./api/:/app/
+    env_file:
+      - _env/dev.env
+      - _env/secret.env
+
   # gui:
   #   build: ./gui
-  #   container_name: nuxt3_gui
+  #   container_name: ${APP_NAME}_gui
   #   user: "1000:1000"
   #   command: "npm run dev"
   #   volumes:
@@ -55,7 +64,7 @@ services:
 
   # redis:
   #   image: redis:7.0
-  #   container_name: nuxt3_redis
+  #   container_name: ${APP_NAME}_redis
 
 volumes:
   postgres_data:
