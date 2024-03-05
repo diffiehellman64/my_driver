@@ -174,12 +174,6 @@ def create_file_from_message(bot: TG_DJ_Bot, update: Update, user: User):
 
 @handler_decor()
 def start(bot: TG_DJ_Bot, update: Update, user: User):
-    print('===========================================')
-    print('===========================================')
-    print('===========================================')
-    print('===========================================')
-    print('===========================================')
-    print('===========================================')
     user.clear_status()
     # self_root_folder = Folder.objects.filter(
     #     user_id=user.pk,
@@ -217,24 +211,27 @@ def start(bot: TG_DJ_Bot, update: Update, user: User):
     #             defaults={'mount_folder': self_root_folder}
     #         )
 
-    # fvs = FolderViewSet(telegram_reverse('base:FolderViewSet'), user=user)
+    # fvs = VehicleViewSet(telegram_reverse('driver:VehicleViewSet'), user=user)
     # __, (message, buttons) = fvs.show_list(self_root_folder.id)
 
     message = _(
-        'Hi! 🤖\n'
-        '\n'
-        'I will help you to store and manage data like Yandex disk or Google drive does it. '
-        'Now, you could store your files in Telegram in different folders and shared it with others.\n'
-        '\n'
-        'Similar to self chat but more useful for work in team or store different content in different areas.\n'
-        '\n'
-        'Try it!'
+        'Привет! 🤖\n\n'
+        'Давай пробовать!!!'
     )
 
-    buttons = [
-        InlineKeyboardButtonDJ(_('⚙️ Settings'), callback_data='us/se')
-    ]
-    return bot.edit_or_send(update, message, None)
+    # buttons = [
+    #     InlineKeyboardButtonDJ(_('⚙️ Settings'), callback_data='us/se')
+    # ]
+
+    items_buttons = []
+    items_buttons.append([
+        InlineKeyboardButtonDJ(
+            text='button',
+            callback_data='/ok',
+        )
+    ])
+
+    return bot.edit_or_send(update, message, items_buttons)
 
 
 class VehicleViewSet(TelegramViewSet):
