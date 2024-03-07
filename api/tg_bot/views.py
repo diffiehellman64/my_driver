@@ -17,9 +17,8 @@ from django.db.models import Count, F
 from telegram import Update
 
 # from .models import MountInstance, ShareLink, User, File, Folder
-from driver.models import User
-from driver.models import Vehicle
-from .forms import VehicleForm
+from driver.models import User, Vehicle, Drive
+from .forms import VehicleForm, DriveForm
 # from .permissions import CheckFolderPermission, CheckFilePermission
 
 
@@ -39,6 +38,106 @@ def create_file_from_message(bot: TG_DJ_Bot, update: Update, user: User):
 
     return bot.edit_or_send(update, message, buttons)
 
+
+@handler_decor()
+def start(bot: TG_DJ_Bot, update: Update, user: User):
+    user.clear_status()
+    # self_root_folder = Folder.objects.filter(
+    #     user_id=user.pk,
+    #     parent_id__isnull=True
+    # ).first()
+
+    # if user.date_joined > (timezone.now() - timezone.timedelta(seconds=1)):
+    #     message = _(
+    #         'Hi! 🤖\n'
+    #         '\n'
+    #         'I will help you to store and manage data like Yandex disk or Google drive does it. '
+    #         'Now, you could store your files in Telegram in different folders and shared it with others.\n'
+    #         '\n'
+    #         'Similar to self chat but more useful for work in team or store different content in different areas.\n'
+    #         '\n'
+    #         'Try it!'
+            
+    #     )
+    #     bot.edit_or_send(update, message)
+
+    # if update.message and update.message.text.startswith('/start') and \
+    #         len(update.message.text) > 6:
+    #     share_code = update.message.text.split()[-1]
+    #     share_link = ShareLink.objects.annotate(
+    #         mounted_amount=Count('mountinstance')
+    #     ).filter(
+    #         share_code=share_code,
+    #         mounted_amount__lt=F("share_amount")
+    #     ).first()
+        
+    #     if share_link:
+    #         MountInstance.objects.get_or_create(
+    #             user=user,
+    #             share_content=share_link,
+    #             defaults={'mount_folder': self_root_folder}
+    #         )
+
+    # fvs = VehicleViewSet(telegram_reverse('driver:VehicleViewSet'), user=user)
+    # __, (message, buttons) = fvs.show_list(self_root_folder.id)
+
+    message = _(
+        'Привет! 🤖\n\n'
+        'Давай пробовать!!!'
+    )
+
+    # buttons = [
+    #     InlineKeyboardButtonDJ(_('⚙️ Settings'), callback_data='us/se')
+    # ]
+
+    items_buttons = []
+
+    vehicle_views = VehicleViews(telegram_reverse('vehicle_path'))
+
+    items_buttons.append([
+        InlineKeyboardButtonDJ(
+            text=_('Добавить транспорт'),
+            callback_data=vehicle_views.gm_callback_data('create')
+        )
+    ])
+
+    items_buttons.append([
+        InlineKeyboardButtonDJ(
+            text=_('Список транспорта'),
+            callback_data=vehicle_views.gm_callback_data('show_list', 100)
+        )
+    ])
+
+
+    return bot.edit_or_send(update, message, items_buttons)
+
+
+class DriveViews(TelegramViewSet):
+    model_form = DriveForm
+    queryset = Drive.objects.all()
+    viewset_name = gettext_lazy('Drive')
+    updating_fields = ['color']
+
+
+class VehicleViews(TelegramViewSet):
+    model_form = VehicleForm
+    queryset = Vehicle.objects.all()
+    viewset_name = gettext_lazy('Vehicle')
+    updating_fields = ['color', 'reg_number', 'passengers_count']
+
+    # def create(self, reg_number=None, color=None, passengers_count=None):
+    #     return super().create(reg_number, color, passengers_count)
+
+    def show_list(self, page=0, per_page=10, columns=1):
+        buttons = []
+        buttons.append([
+            InlineKeyboardButtonDJ(
+                text=_('Назад'),
+                callback_data='/start'
+            )
+        ])
+        msg = 'ok!'
+        return self.CHAT_ACTION_MESSAGE, (msg, buttons)
 
 # @handler_decor()
 # def select_folder(bot: TG_DJ_Bot, update: Update, user: User):
@@ -170,68 +269,6 @@ def create_file_from_message(bot: TG_DJ_Bot, update: Update, user: User):
 #     __, (message, buttons) = fvs.show_list(self_root_folder.id)
 
 #     return bot.edit_or_send(update, message, buttons)
-
-
-@handler_decor()
-def start(bot: TG_DJ_Bot, update: Update, user: User):
-    user.clear_status()
-    # self_root_folder = Folder.objects.filter(
-    #     user_id=user.pk,
-    #     parent_id__isnull=True
-    # ).first()
-
-    # if user.date_joined > (timezone.now() - timezone.timedelta(seconds=1)):
-    #     message = _(
-    #         'Hi! 🤖\n'
-    #         '\n'
-    #         'I will help you to store and manage data like Yandex disk or Google drive does it. '
-    #         'Now, you could store your files in Telegram in different folders and shared it with others.\n'
-    #         '\n'
-    #         'Similar to self chat but more useful for work in team or store different content in different areas.\n'
-    #         '\n'
-    #         'Try it!'
-            
-    #     )
-    #     bot.edit_or_send(update, message)
-
-    # if update.message and update.message.text.startswith('/start') and \
-    #         len(update.message.text) > 6:
-    #     share_code = update.message.text.split()[-1]
-    #     share_link = ShareLink.objects.annotate(
-    #         mounted_amount=Count('mountinstance')
-    #     ).filter(
-    #         share_code=share_code,
-    #         mounted_amount__lt=F("share_amount")
-    #     ).first()
-        
-    #     if share_link:
-    #         MountInstance.objects.get_or_create(
-    #             user=user,
-    #             share_content=share_link,
-    #             defaults={'mount_folder': self_root_folder}
-    #         )
-
-    # fvs = VehicleViewSet(telegram_reverse('driver:VehicleViewSet'), user=user)
-    # __, (message, buttons) = fvs.show_list(self_root_folder.id)
-
-    message = _(
-        'Привет! 🤖\n\n'
-        'Давай пробовать!!!'
-    )
-
-    # buttons = [
-    #     InlineKeyboardButtonDJ(_('⚙️ Settings'), callback_data='us/se')
-    # ]
-
-    items_buttons = []
-    items_buttons.append([
-        InlineKeyboardButtonDJ(
-            text='button',
-            callback_data='/ok',
-        )
-    ])
-
-    return bot.edit_or_send(update, message, items_buttons)
 
 
 class VehicleViewSet(TelegramViewSet):

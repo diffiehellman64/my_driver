@@ -1,11 +1,21 @@
 from django.urls import re_path
+from .views import (
+    start,
+    DriveViews,
+    VehicleViews
+ )
 
-from .views import start #, change_location, select_folder, FileViewSet, FolderViewSet, ShareLinkViewSet
+#, change_location, select_folder, FileViewSet, FolderViewSet, ShareLinkViewSet
 # from telegram_django_bot.user_viewset import UserViewSet
 
 
 urlpatterns = [
     re_path('start', start, name='start'),
+    # re_path('drive/', DriveViews, name='DriveViews')
+    re_path('vehicle/', VehicleViews, name='vehicle_path')
+
+
+    # re_path('show_my_drives', show_my_drives, name='show_my_drives'),
     # re_path('main_menu', start, name='start'),
 
     # re_path('change_location', change_location, name='change_location'),

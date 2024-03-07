@@ -2,24 +2,30 @@ from django.utils.translation import gettext_lazy as _
 from django import forms
 from telegram_django_bot import forms as td_forms
 
-# from .models import File, Folder, ShareLink, MountInstance
-from driver.models import Vehicle
+from driver.models import Vehicle, Drive
 
 class VehicleForm(td_forms.TelegramModelForm):
     form_name = _("Menu file")
 
     class Meta:
         model = Vehicle
-        fields = ('reg_number', 'color')
+        fields = ('reg_number', 'color', 'passengers_count')
 
         labels = {
-            'reg_number': _('Note'),
-            'color': _('Name'),
+            'reg_number': _('Reg_number'),
+            'passengers_count': _('passengers_count'),
+            'color': _('color'),
         }
 
-        widgets = {
-            'color': forms.HiddenInput(),
-        }
+        # widgets = {
+        #     'color': forms.HiddenInput(),
+        # }
+
+
+
+class DriveForm(td_forms.TelegramModelForm):
+    form_name = _("Menu file")
+
 
 
 # class FolderForm(td_forms.TelegramModelForm):
