@@ -11,8 +11,9 @@ from .views import (
 
 urlpatterns = [
     re_path('start', start, name='start'),
-    # re_path('drive/', DriveViews, name='DriveViews')
-    re_path('vehicle/', VehicleViews, name='vehicle_path')
+    
+    re_path('vehicle/', VehicleViews, name='vehicle_path'),
+    re_path('drive/', DriveViews, name='drive_path'),
 
 
     # re_path('show_my_drives', show_my_drives, name='show_my_drives'),

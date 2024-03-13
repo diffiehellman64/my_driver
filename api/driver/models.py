@@ -16,14 +16,13 @@ class Vehicle(models.Model):
     reg_number = models.CharField(max_length=15)
     color = models.CharField(max_length=100)
     passengers_count = models.IntegerField()
+    driver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='vehicles')
 
-# Водитель
-class Driver(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.reg_number
 
 # Поездка
 class Drive(models.Model):
-    drive = models.ForeignKey(Driver, on_delete=models.CASCADE)
-    passengers = models.ManyToManyField(User)
-    passengers_available_count = models.IntegerField()
+    vehicle = models.OneToOneField(Vehicle, on_delete=models.SET_NULL, null=True, related_name='drives')
+    passengers = models.ManyToManyField(User, related_name='passenger_drives')
+    passengers_available_count = models.IntegerField(null=True)

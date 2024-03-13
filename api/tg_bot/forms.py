@@ -9,79 +9,22 @@ class VehicleForm(td_forms.TelegramModelForm):
 
     class Meta:
         model = Vehicle
-        fields = ('reg_number', 'color', 'passengers_count')
+        fields = ('reg_number', 'color', 'passengers_count', 'driver')
 
         labels = {
-            'reg_number': _('Reg_number'),
-            'passengers_count': _('passengers_count'),
-            'color': _('color'),
+            'reg_number': _('Государственный регистрационный знак'),
+            'passengers_count': _('Количетсов пассажиров'),
+            'color': _('Цвет'),
         }
-
-        # widgets = {
-        #     'color': forms.HiddenInput(),
-        # }
-
-
 
 class DriveForm(td_forms.TelegramModelForm):
     form_name = _("Menu file")
 
+    class Meta:
+        model = Drive
+        fields = ('passengers_available_count', 'vehicle')
 
-
-# class FolderForm(td_forms.TelegramModelForm):
-#     form_name = _("Menu folder")
-
-#     class Meta:
-#         model = Folder
-#         fields = ['name', 'user', 'parent']
-
-#         labels = {
-#             'name': _('Folder name'),
-#         }
-
-
-# class ShareLinkForm(td_forms.TelegramModelForm):
-#     form_name = _('Menu sharelink')
-
-#     class Meta:
-#         model = ShareLink
-#         fields = ['folder', 'file', 'type_link', 'share_amount','share_code']
-
-#         widgets = {
-#             'folder': forms.HiddenInput(),
-#             'file': forms.HiddenInput(),
-#             'share_code': forms.HiddenInput(),
-#         }
-
-#         labels = {
-#             'type_link': _('How to share'),
-#             'share_amount': _('Share with amount'),
-#         }
-
-
-#     def clean(self):
-#         cleaned_data = super().clean()
-
-#         if (folder:= cleaned_data.get('folder')):
-#             if folder.parent_id is None:
-#                 self.add_error('folder', _('Main folder could not be shared'))
-
-#             mounts_in_family = MountInstance.objects.filter(
-#                 mount_folder_id__in=folder.get_descendants(include_self=False).values_list('id', flat=True),
-#                 user=self.user
-#             ).count()
-
-#             shared_folders = ShareLink.objects.filter(
-#                 folder_id__in=folder.get_family().values_list('id', flat=True),
-#                 # folder__user=self.user,
-#             ).exclude(folder_id=folder.id).count()
-
-#             if mounts_in_family or shared_folders:
-#                 self.add_error('folder', _(
-#                     'There is mounted or shared folders instances in descendants. You could not share this folder. \n'
-#                 ))
-
-#         return cleaned_data
-
-
+        labels = {
+            'passengers_available_count': _('Количетсво пассажиров, которых готов взять с собой'),
+        }
 
